@@ -1,18 +1,22 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
+import { FoodListComponent } from './food-list/food-list.component';
+import { FoodSearchPipe } from './food-search.pipe';
+import { MyFoodsComponent } from './my-foods/my-foods.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FoodListComponent,
+    FoodSearchPipe,
+    MyFoodsComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
