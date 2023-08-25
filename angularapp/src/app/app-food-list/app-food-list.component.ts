@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import foodsList from '../food';
 
-@Component({
+@Component({                               
   selector: 'app-food-list',
   templateUrl: './food-list.component.html',
   styleUrls: ['./food-list.component.css']
