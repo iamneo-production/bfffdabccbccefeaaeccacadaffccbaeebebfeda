@@ -1,64 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import foodsList from '../food';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-@Component({                               
-  selector: 'app-food-list',
-  templateUrl: './food-list.component.html',
-  styleUrls: ['./food-list.component.css']
+@Component({
+  selector: 'app-app-food-list',
+  templateUrl: './app-food-list.component.html',
+  styleUrls: ['./app-food-list.component.css']
 })
-export class FoodListComponent implements OnInit {
-  foods: Object[];
-  myList: {
-    name: string;
-    calories: number;
-    quantity: number;
-    image: string;
-  }[] = [];
-  pattern: string;
-  isEditing: boolean = false;
-  newFoodName: string = 'Food Name';
-  newFoodCalories: number = 98;
-  newFoodImage: string = 'https://pngimg.com/uploads/milk/milk_PNG12762.png';
-  quantity: number;
-  totalCalories: number = 0;
+export class AppFoodListComponent implements OnInit {
 
-  constructor() {}
+  public total_cal : number = 0.0;
+  public calory : number = 1.0;
+  public Quantity : string[] = [];
+  public index : number = 0;
+  
+  @Input() public parentData:any[]=[];
 
-  ngOnInit() {
-    this.foods = foodsList;
+  @Input() public stext : string = '';
+
+  @Output() public QuantityData = new EventEmitter<any>();
+
+  @Output() public CaloryData = new EventEmitter<number>();
+
+  @Output() public FoodData = new EventEmitter<any>();
+
+  constructor() { }
+
+  ngOnInit(): void {
   }
 
-  enableUserToAddFood() {
-    this.isEditing = !this.isEditing;
+  AddQuantity(i:number){
+    console.log('Add Button Clicked '+i);
+    console.log("Quantity : "+this.Quantity[i]);
+
+    let  q = +this.Quantity[i] | 1;
+    let cal = + this.parentData[i].calories;
+
+    this.total_cal += q * cal ;    
+    
+    console.log(this.total_cal);
+
+    this.QuantityData.emit(this.Quantity);
+    this.CaloryData.emit(this.total_cal);
+    this.FoodData.emit(this.parentData);
   }
 
-  newFood() {
-    const newFood = {
-      name: this.newFoodName,
-      calories: this.newFoodCalories,
-      image: this.newFoodImage,
-      quantity: 0
-    };
-
-    this.foods.unshift(newFood);
-
-    this.isEditing = true;
-    this.newFoodName = '';
-    this.newFoodCalories = null;
-    this.newFoodImage = '';
-  }
-
-  addToMyList(food, quantityInput) {
-    const existingFood = this.myList.find(item => item.name === food.name);
-    const quantity = Number(quantityInput.value);
-
-    if (existingFood) {
-      existingFood.quantity += quantity;
-    } else {
-      food.quantity = quantity;
-      this.myList.push(food);
-    }
-    this.totalCalories += food.calories * quantity;
-    this.quantity = 1;
-  }
 }
